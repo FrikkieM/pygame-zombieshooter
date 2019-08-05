@@ -6,6 +6,7 @@ import sys
 from os import path, environ
 from settings import *
 from sprites import *
+from tilemap import *
 
 class Game:
     def __init__(self):
@@ -19,11 +20,7 @@ class Game:
 
     def load_data(self):
         game_folder = path.dirname(__file__)
-        self.map_data = []
-        with open(path.join(game_folder, 'map01.txt'), 'rt') as f:
-            for line in f:
-                self.map_data.append(line)
-
+        self.map = Map(path.join(game_folder, 'map03.txt'))        
 
 
     def new(self):
@@ -31,7 +28,7 @@ class Game:
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
         #Loop through map_data list
-        for row, tiles in enumerate(self.map_data):
+        for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '1':
                     Wall(self, col, row)
