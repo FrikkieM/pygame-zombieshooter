@@ -1,6 +1,10 @@
 import pygame as pg 
 from settings import *
 
+def collide_hit_rect(sprite_player, sprite_wall):
+    return sprite_player.hit_rect.colliderect(sprite_wall.rect)
+    
+
 class Map:
     def __init__(self, filename):
         self.data = []
@@ -9,12 +13,11 @@ class Map:
                 self.data.append(line.strip())
 
         #Variables
-        self.tilewidth = len(self.data[0])  #Length of one line
-        self.tileheight = len(self.data)    #How many lines is it long...
-        self.width = self.tilewidth * TILESIZE  #Get true width in pixels
+        self.tilewidth = len(self.data[0])  
+        self.tileheight = len(self.data)    
+        self.width = self.tilewidth * TILESIZE  
         self.height = self.tileheight * TILESIZE
 
-#https://youtu.be/3zV2ewk-IGU?list=PLsk-HSGFjnaGQq7ybM8Lgkh5EMxUWPm2i&t=312
 class Camera:
     def __init__(self, width, height):
         self.camera = pg.Rect(0, 0, width, height)
@@ -25,8 +28,8 @@ class Camera:
         return entity.rect.move(self.camera.topleft)
 
     def update(self, target):
-        x = -target.rect.x + int(WIDTH / 2)
-        y = -target.rect.y + int(HEIGHT / 2)
+        x = -target.rect.centerx + int(WIDTH / 2)
+        y = -target.rect.centery + int(HEIGHT / 2)
 
         # limit scrolling to map size
         x = min(0, x)  # left
